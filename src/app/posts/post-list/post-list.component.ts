@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
-  styleUrls: ['./post-list.component.scss']
+  styleUrls: ['./post-list.component.scss'],
 })
 export class PostListComponent implements OnInit, OnDestroy {
   // posts = [
@@ -23,13 +23,18 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.postsService.getPosts();
-    this.postsSub = this.postsService.getPostsUpdateListener().subscribe((posts: Post[]) => {
-      this.posts = posts;
-    });
+    this.postsSub = this.postsService
+      .getPostsUpdateListener()
+      .subscribe((posts: Post[]) => {
+        this.posts = posts;
+      });
   }
 
   ngOnDestroy() {
     this.postsSub.unsubscribe();
   }
 
+  onDelete(postId: string) {
+    this.postsService.deletePost(postId);
+  }
 }
